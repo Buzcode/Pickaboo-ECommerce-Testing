@@ -32,7 +32,7 @@ This document details the critical transaction-state flaw identified during live
 ### Visual Evidence:
 
 #### Real System Email Screenshot (Triggers Before Payment):
-![Unpaid Order Placed Email](./jira-screenshot/order_placed_email.png)
+![Unpaid Order Placed Email](./jira-screenshots/order_placed_email.png)
 
 #### Jira Defect Ticket Details:
 ![Jira Defect Ticket Details](./jira-screenshots/pic_1_ticket_details.png)
