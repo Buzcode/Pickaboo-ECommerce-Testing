@@ -1,15 +1,29 @@
 # Live Production Testing & Transaction Flaw Investigation: Pickaboo
 
-This repository contains a manual testing suite, complex functional test cases, and a critical transaction-state defect log executed against the live **Pickaboo** e-commerce platform.
+This repository contains a comprehensive manual testing suite, complex functional test cases, and a critical transaction-state defect log executed against the live **Pickaboo** e-commerce platform.
 
-Unlike static practice environments, this project focuses on verifying complex, dynamic transactions and session states on a live, production system.
+Unlike static practice sandboxes, this project focuses on verifying complex, dynamic transactions, session states, and payment gateway boundaries on a live, production system.
 
 ---
 
 ## 🗺️ Project Navigation
+Explore the individual modules of this testing project:
 *   [**High-Level Test Scenarios**](./Pickaboo_Test_Scenarios.md): The 32 mapped scenarios covering Search, Cart persistence, EMI thresholds, and payment workflows.
 *   [**Detailed Test Cases**](./Pickaboo_Test_Cases.md): In-depth test cases verifying Cart Merging logic, Payment Routing, and dynamic BDT 5,000 EMI threshold calculations.
-*   [**Critical Defect Log**](./Pickaboo_Bug_Reports.md): The documented critical-severity "Cart Preservation Flaw" complete with real system email evidence.
+*   [**Defect Logs & Bug Reports**](./Pickaboo_Bug_Reports.md): Detailed logs of the critical-severity "Cart Preservation Flaw" complete with real system email evidence.
+
+---
+
+## 🛠️ Jira Agile Defect Tracking
+To simulate professional Agile sprint cycles, identified defects were logged directly into **Jira** under the project key **`PIC`**.
+
+### Project Kanban Board
+![Jira Kanban Board](./jira-screenshots/pic_jira_board.png)
+
+### Logged Defect:
+*   **[PIC-1] Cart cleared and "Order Placed" status/email triggered prior to payment completion during checkout redirection.**
+    *   *Severity:* Major | *Priority:* High
+    *   [View Detailed Jira Ticket Screenshot](./jira-screenshots/pic_1_ticket_details.png)
 
 ---
 
@@ -24,9 +38,7 @@ I executed exploratory and regression testing across key user transaction paths.
 
 ---
 
-## 🐛 Uncovered Production Bug Summary
-*   **Bug ID:** PKB_BUG_001
-*   **Title:** [Checkout Redirection] Active cart is cleared and "Order Placed" confirmation is triggered prior to successful payment completion.
-*   **Severity:** Major | **Priority:** High
-*   **The Impact:** If a user cancels or fails a transaction at the SSLCommerz/bKash gateway portal, they are returned to the homepage with an empty cart and an automated "Order Placed" email—violating basic transaction rollback rules.
-*   [View Detailed Bug Report](./Pickaboo_Bug_Reports.md)
+## 🔍 Key SQA Insights & Recommendations
+
+1.  **Transactional Vulnerability:** The application currently clears the cart and triggers an order confirmation email *before* a successful transaction is confirmed by the payment gateway (SSLCommerz/bKash). If the user cancels the transaction, they are returned to the homepage with a cleared cart, violating basic transaction rollback rules.
+2.  **Release Recommendation:** This critical transaction-state defect (**PIC-1**) should be resolved before any subsequent releases to prevent user confusion regarding unpaid orders and to avoid lost carts during checkout failures.
